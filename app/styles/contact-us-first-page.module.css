@@ -1,0 +1,16 @@
+.first_page {
+    text-align: center;
+    font-family: var(--font1);
+    font-size: var(--smaller);
+    width: calc(100vw - var(--larger)*4);
+    margin: var(--larger);
+    padding: var(--larger);
+    border-start-end-radius: var(--larger);
+    border-start-start-radius: var(--larger);
+    box-shadow: 0 -8px 15px 0px rgba(0, 0, 0, 25%);
+}
+@media screen and (max-width: 480px) {
+    .first_page{
+        font-size: 14px;
+    }
+}

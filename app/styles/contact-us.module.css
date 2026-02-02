@@ -1,0 +1,28 @@
+.footer {
+    width: 100%;
+    height: var(--larger);
+    background-color: var(--darkGray);
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer_section {
+    color: var(--lightBlue);
+    font-family: var(--font1);
+    font-size: var(--smaller);
+    padding-top: var(--smaller);
+    padding-bottom: var(--smaller);
+    padding-right: 4vw;
+    padding-left: 4vw;
+    text-wrap: nowrap;
+    text-align: center;
+    cursor: pointer;
+}
+
+.footer_section:hover {
+    background-color: var(--dark);
+}

@@ -1,0 +1,110 @@
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "sansita";
+    src: url("/fonts/SansitaOne.woff2") format("woff2");
+    font-style: normal;
+}
+
+body {
+  background: #f9f9f9;
+  color: #0a0a0a;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Vazir", "sansita", sans-serif;
+}
+
+body.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+:global(:root) {
+    /* رنگ‌ها - بدون تغییر */
+    --darkGray: #2b2e3a;
+    --dark: #000;
+    --white: #fff;
+    --light: #f9f9f9;
+    --lightBlue: #9feaf9;
+
+    /* اندازه‌های پایه برای دسکتاپ */
+    --thin: .75rem;
+    --smaller: 1rem; /* 16px */
+    --small: 1.5rem; /* 24px */
+    --normal: 2rem; /* 32px */
+    --large: 2.5rem; /* 40px */
+    --larger: 3.75rem; /* 60px */
+
+    --iconSize1: 3.125rem; /* 50px */
+    --iconSize2: 3.75rem; /* 60px */
+    --iconSize3: 5.625rem; /* 90px */
+
+    --width: 9rem; /* 144px */
+    --height: 7.5rem; /* 120px */
+
+    --font1: "Vazir";
+    --font2: "sansita";
+}
+
+/* تبلت */
+@media screen and (max-width: 1024px) {
+    :global(:root) {
+        --smaller: 0.875rem; /* 14px */
+        --small: 1.25rem; /* 20px */
+        --normal: 1.75rem; /* 28px */
+        --large: 2.25rem; /* 36px */
+        --larger: 3rem; /* 48px */
+
+        --iconSize1: 2.5rem; /* 40px */
+        --iconSize2: 3rem; /* 48px */
+        --iconSize3: 4.5rem; /* 72px */
+
+        --width: 7rem; /* 112px */
+        --height: 6rem; /* 96px */
+    }
+}
+
+/* موبایل */
+@media screen and (max-width: 768px) {
+    :global(:root) {
+        --thin: 0.1rem;
+        --smaller: 0.5rem; /* 12px */
+        --small: 1rem; /* 16px */
+        --normal: 1.5rem; /* 24px */
+        --large: 2rem; /* 32px */
+        --larger: 2.5rem; /* 40px */
+
+        --iconSize1: 2rem; /* 32px */
+        --iconSize2: 2.5rem; /* 40px */
+        --iconSize3: 3.75rem; /* 60px */
+
+        --width: 5.5rem; /* 88px */
+        --height: 4.5rem; /* 72px */
+    }
+}

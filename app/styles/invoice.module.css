@@ -1,0 +1,143 @@
+.template {
+    position: relative;
+    max-width: calc(100vw - var(--larger)*4);
+    min-width: 33vh;
+    margin: var(--small) auto;
+    background: var(--light);
+    padding: var(--normal);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    direction: rtl;
+}
+
+
+.background_pattern {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(26, 77, 124, 0.03) 25%, 
+        transparent 25%) -50px 0,
+    linear-gradient(225deg, 
+        rgba(26, 77, 124, 0.03) 25%, 
+        transparent 25%) -50px 0,
+    linear-gradient(315deg, 
+        rgba(26, 77, 124, 0.03) 25%, 
+        transparent 25%),
+    linear-gradient(45deg, 
+        rgba(26, 77, 124, 0.03) 25%, 
+        transparent 25%);
+    background-size: 100px 100px;
+    z-index: 1;
+}
+
+.content_wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+.latterhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.logo_img {
+    height: 10vw;
+    max-width: calc(10vw * 1.2);
+}
+
+.invoice_info {
+    font-family: var(--font1);
+    font-size: calc(var(--smaller)*3/4);
+    font-weight: 600;
+}
+
+.invoice_info div {
+    display: flex;
+    gap: var(--normal);
+    align-items: center;
+    justify-content: start;
+}
+
+.table_area {
+    margin: var(--small) auto;
+    font-family: var(--font2),var(--font1);
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table_area > thead > tr > th {
+    min-width: 100%;
+    text-align: center;
+    font-weight: 900;
+    font-size: var(--smaller);
+    background-color: var(--dark);
+    color: var(--light);
+    height: var(--small);
+    padding: calc(var(--smaller)*1/4);
+}
+
+.table_area > tbody > tr > td {
+    font-size: calc(var(--smaller)*3/4);
+    padding: calc(var(--smaller)*1/3);
+    border-collapse: collapse;
+    border: 1px solid var(--darkGray);
+}
+
+.table_area > tbody > tr > td:nth-child(1) {
+    width: 10%; /* عرض ستون تاریخ */
+}
+
+.table_area > tbody > tr > td:nth-child(2) {
+    width: 50%; /* عرض ستون شرح */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table_area > tbody > tr > td:nth-child(3),
+.table_area > tbody > tr > td:nth-child(4),
+.table_area > tbody > tr > td:nth-child(5) {
+    width: 13.33%; /* عرض ستون‌های واریزی، پرداختی و مانده */
+}
+
+.table_area > tfoot > tr > td {
+    border: none;
+    font-size: calc(var(--smaller)*3/4);
+    font-weight: 900;
+}
+
+.table_area > tfoot > tr > td:nth-child(3),
+.table_area > tfoot > tr > td:nth-child(2) {
+    border: 1px solid var(--darkGray);
+}
+
+.footer_invoice {
+    margin-top: var(--normall);
+    padding-top: var(--smaller);
+    text-align: center;
+    width: 100%;
+    font-family: var(--font2);
+    font-size: calc(var(--smaller)*2/3);
+}
+
+@media print {
+    body {
+        padding: 0;
+        background: white;
+    }
+    .letterhead {
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .template {
+        min-height: 1000px;
+    }
+}

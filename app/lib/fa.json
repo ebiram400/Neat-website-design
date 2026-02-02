@@ -1,0 +1,15 @@
+{
+    "REPORTS" : "گزارشات",
+    "ABOUTUS" : "درباره ما",
+    "LOGOUT" : "خروج",
+    "LOGIN" : "ورود",
+    "LANGUAGE" : "زبان",
+    "CONTACTUS" : "تماس با ما",
+    "OURTEAM" : "تیم اجرایی",
+    "ABOUTSITE" : "درباره سایت",
+    "ABOUTNOVINASHIAN" : "درباره نوین آشیان",
+    "PROJECTS" : "پروژه ها",
+    "ERROR" : "خطا در بارگذاری صفحه",
+    "NotFound" : "صفحه مورد نظر یافت نشد",
+    "LOGOUTMASSAGE" : "خروج با موفقیت انجام شد"
+}

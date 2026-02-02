@@ -1,0 +1,15 @@
+.project_name {
+    font-family: var(--font1);
+    font-size: var(--smaller);
+    font-weight: 900;
+    color: var(--light);
+    background-color: var(--darkGray);
+    border-radius: var(--smaller);
+    text-align: end;
+    padding: var(--small);
+    margin-left: var(--large);
+    margin-right: var(--large);
+}
+
+
+

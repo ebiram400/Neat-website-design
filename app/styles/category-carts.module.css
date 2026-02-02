@@ -1,0 +1,67 @@
+.category_carts {
+    display: flex;
+    margin-top: var(--larger);
+    margin-bottom: var(--larger);
+    padding-left: var(--larger);
+    padding-right: var(--larger);
+    width: calc(100vw - 2 * var(--larger));
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    gap: var(--smaller);
+}
+
+.category_carts::-webkit-scrollbar {
+    display: none;
+}
+
+.category_cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.img_cart {
+    width: calc(var(--width)*2);
+    height: calc(var(--width)*2);
+    max-width: unset;
+}
+
+.text_cart {
+    color: var(--light);
+    position: absolute;
+    font-family: var(--font1);
+    font-size: var(--small);
+    bottom: var(--larger);
+    max-width: calc(var(--larger)*2.7);
+    text-align: center;
+    transform: translateY(50%);
+}
+
+.button_scrolls {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: var(--larger);
+    gap: var(--normal);
+    color: var(--dark);
+}
+
+.button_scroll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--smaller);
+    cursor: pointer;
+    border: none;
+    font-family: var(--font2);
+    font-size: var(--smaller);
+
+}
+
+.arrow_scroll {
+    width: calc(var(--smaller)*2/3);
+}

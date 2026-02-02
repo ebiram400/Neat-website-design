@@ -1,0 +1,173 @@
+.project_carts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: var(--small);
+}
+
+@media screen and (max-width:768px) {
+    .project_carts {
+        flex-direction: column;
+    }
+}
+
+.project_cart {
+    width: calc(var(--larger)*5);
+    height: calc(var(--larger)*4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font1);
+}
+
+.project_cart_header {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-right: calc(var(--small));
+}
+
+.project_cart_titr {
+    font-size: calc(var(--smaller)*3/4);
+    font-weight: bold;
+    margin-right: calc(var(--small)*1/2);
+}
+
+.project_cart_img {
+    width: var(--larger);
+    opacity: 50%;
+    margin: calc(var(--small)*1/2);
+}
+
+.project_cart_text {
+    margin-left: var(--small);
+    margin-right: var(--small);
+    text-align: center;
+    font-size: calc(var(--smaller)*3/4);
+}
+
+.dotted_line {
+    width: calc(var(--larger)*4);
+    border-top: 4px dashed var(--lightBlue);
+    margin: var(--smaller);
+}
+
+.project_cart_bottom {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+    font-size: calc(var(--smaller)*1/2);
+    margin-bottom: var(--smaller);
+}
+
+.project_cart_int {
+    font-weight: 600;
+    font-size: calc(var(--smaller)*2/3);
+}
+
+.project_cart1{
+    box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 10%), 0 -1px 4px 0px rgba(0, 0, 0, 10%);
+    transform: translateY(var(--smaller));
+    transform: rotate(1.8deg);
+    z-index: 10;
+}
+
+.project_cart2{
+    box-shadow: 0 6px 10px 0px rgba(0, 0, 0, 15%), 0 -1px 4px 0px rgba(0, 0, 0, 10%);
+    transform: rotate(-3deg);
+    z-index: 20;
+}
+
+.project_cart3{
+    box-shadow: 0 7px 15px 0px rgba(0, 0, 0, 25%), 0 -1px 4px 0px rgba(0, 0, 0, 10%);
+    transform: rotate(6deg);
+    z-index: 30;
+}
+
+.adhesive1 {
+    transform: rotate(5deg);
+    background-color: var(--white);
+    opacity: 70%;
+    width: var(--normal);
+    height: calc(var(--larger));
+    position: absolute;
+    top: calc(var(--normal)*-1);
+}
+
+.adhesive2 {
+    transform: rotate(25deg);
+    background-color: var(--white);
+    opacity: 70%;
+    width: var(--normal);
+    height: calc(var(--larger));
+    position: absolute;
+    top: calc(var(--normal)*-1);
+    right: calc(var(--large)*2);
+}
+
+.adhesive3 {
+    transform: rotate(-30deg);
+    background-color: var(--white);
+    opacity: 70%;
+    width: var(--normal);
+    height: calc(var(--large));
+    position: absolute;
+    top: calc(var(--small)*-1);
+    left: calc(var(--large));
+}
+
+.text_count_projects_base {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--smaller);
+}
+
+.text_count_projects {
+    position: relative;
+    text-align: center;
+    background-color: var(--lightBlue);
+    margin: var(--larger);
+    padding: var(--small);
+    font-family: var(--font1);
+    font-size: var(--smaller);
+    border-radius: 5px;
+    box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 25%), 0 -4px 8px 0px rgba(0, 0, 0, 15%);
+}
+
+.count_projects {
+    font-weight: 900;
+    font-size: var(--small);
+    background: -webkit-linear-gradient(var(--lightBlue),var(--darkGray));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.adhesive_count_left {
+    transform: rotate(82deg);
+    background-color: var(--white);
+    opacity: 70%;
+    width: var(--normal);
+    height: calc(var(--larger));
+    position: absolute;
+    bottom: calc(var(--smaller));
+    left: calc(var(--small)*-1);
+}
+
+.adhesive_count_right {
+    transform: rotate(92deg);
+    background-color: var(--white);
+    opacity: 70%;
+    width: var(--normal);
+    height: calc(var(--larger));
+    position: absolute;
+    bottom: calc(var(--smaller));
+    right: calc(var(--small)*-1);
+}

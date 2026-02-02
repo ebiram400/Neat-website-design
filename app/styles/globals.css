@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("/fonts/vazir/Vazirmatn-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "sansita";
+    src: url("/fonts/SansitaOne.woff2") format("woff2");
+    font-style: normal;
+}
+
+/* @font-face {
+  font-family: "Awesome";
+  src: url("/fonts/fa-solid-900.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 900;
+  font-display: auto;
+} */
+
+body {
+  background: #f9f9f9;
+  color: #0a0a0a;
+  font-family: "Vazir", "sansita", sans-serif;
+}
+
+body.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}

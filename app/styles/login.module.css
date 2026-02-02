@@ -1,0 +1,87 @@
+.background_blur {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    backdrop-filter: blur(10px);
+    top: 0px;
+    left: 0px;
+}
+
+.background_login {
+    position: relative;
+    transform: translateY(-50%);
+    top: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    max-height: 100vw;
+    width: 90vw;
+}
+
+.bg_image_login {
+    width: 100%;
+    height: 100%;
+}
+
+.close_login {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    cursor: pointer;
+    width: var(--larger);
+}
+
+.loginform{
+    position: absolute;
+    z-index: 40;
+    font-size: var(--small);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .75rem;
+    align-items: center;
+}
+
+.text {
+    color: var(--light);
+    font-family: var(--font1);
+}
+
+.input_tel,.input_password{
+    border: none;
+    outline: none;
+    border-radius: var(--larger);
+    font-family: var(--font2);
+    letter-spacing: var(--smaller);
+    width: calc(var(--width) * 2);
+    padding: .5rem;
+    text-align: center;
+}
+
+.login_button {
+    background-color: var(--darkgray);
+    color: darkgray;
+    font-family: var(--font2);
+    font-size: var(--small);
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2), inset 0 2px 5px rgba(255,255,255,0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.login_button:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.1);
+}
+
+@media screen and (max-width: 480px) {
+    .text{
+        font-size: calc(var(--small) * 2/3);
+    }
+}

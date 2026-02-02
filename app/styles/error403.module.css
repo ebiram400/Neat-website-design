@@ -1,0 +1,14 @@
+.container {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inset: 0;
+    background-color: var(--white);
+}
+
+.text{
+    color: red;
+    font-size: var(--normal);
+    font-weight: bold;
+}

@@ -1,0 +1,15 @@
+{
+    "REPORTS" : "Reports",
+    "ABOUTUS" : "About us",
+    "LOGOUT" : "Logout",
+    "LOGIN" : "Login",
+    "LANGUAGE" : "Language",
+    "CONTACTUS" : "Contact Us",
+    "OURTEAM" : "Our Team",
+    "ABOUTSITE" : "About Site",
+    "ABOUTNOVINASHIAN" : "About Novin Ashian",
+    "PROJECTS" : "Project",
+    "ERROR" : "Error loading page",
+    "NotFound" : "Page not found",
+    "LOGOUTMASSAGE" : "Logout successful"
+}
