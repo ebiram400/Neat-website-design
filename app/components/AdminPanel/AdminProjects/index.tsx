@@ -5,7 +5,7 @@ import ProjectCards from "./ProjectCards";
 export default function AdminProjects(){
     return(
         <>
-            <AdminHeader breadcrumb="پروژه ها" titleLink="داشبورد" hrefLink="/dashboard" />
+            <AdminHeader breadcrumb="پروژه ها" titleLink="صفحه اصلی" hrefLink="/" />
             <ProjectCards />
         </>
     )

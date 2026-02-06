@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.npmrc
+tasks.txt
+PortalFlow.sql
+.git
+.github
+pnpm-lock.yaml

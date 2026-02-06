@@ -34,13 +34,11 @@
     font-style: normal;
 }
 
-/* @font-face {
-  font-family: "Awesome";
-  src: url("/fonts/fa-solid-900.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 900;
-  font-display: auto;
-} */
+@font-face {
+    font-family: "lalezar";
+    src: url("/fonts/Lalezar-Regular.woff2") format("woff2");
+    font-style: normal;
+}
 
 body {
   background: #f9f9f9;
@@ -51,4 +49,12 @@ body {
 body.dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

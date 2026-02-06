@@ -3,7 +3,7 @@
 import AddPageIcon from "@/public/images/icon/AddPageIcon";
 import ProjectCard from "./ProjectCard";
 import { useState } from "react";
-import EditProject from "./EditProject";
+import NewAndEditProject from "./NewAndEditProject";
 
 interface ProjectCardInterface{
     id:number,
@@ -11,7 +11,7 @@ interface ProjectCardInterface{
     project_name:string
 }
 
-export default function ProjectCards(){
+export default function ProjectCards() {
     const projects:ProjectCardInterface[] = [
         { id : 1, end_date : "1401/06/23", project_name : "کاشانی 59"},
         { id : 2, end_date : "1401/09/20", project_name : "حجت 51"},
@@ -26,17 +26,23 @@ export default function ProjectCards(){
         setEditProjectShow(true);
     };
 
-    return(
+    return (
         <>
-            {projects.map((project)=>(
-                <ProjectCard onSelect={handleEditProject} key={project.id} project_id={project.id} end_date={project.end_date} name={project.project_name} />
-            ))}
-            {editProjectShow &&
-                <EditProject project_id={projectIdTarget} onSelectShow={setEditProjectShow} />
-            }
-            <button onClick={()=>handleEditProject()} className="w-12 h-12 fixed bottom-4 right-4 cursor-pointer">
+            <div className="mt-3 w-[90%] mx-auto grid gap-2">
+                {projects.map((project)=>(
+                    <ProjectCard onSelect={handleEditProject} key={project.id} project_id={project.id} end_date={project.end_date} name={project.project_name} />
+                ))}
+            </div>
+            {editProjectShow && (
+                <NewAndEditProject project_id={projectIdTarget} onSelectShow={setEditProjectShow} />
+            )}
+            <button
+                onClick={() => handleEditProject()}
+                className="fixed bottom-5 right-5 h-12 w-12 rounded-full shadow-xl transition hover:-translate-y-0.5 hover:shadow-xl"
+                aria-label="افزودن پروژه جدید"
+            >
                 <AddPageIcon />
             </button>
         </>
-    )
+    );
 }

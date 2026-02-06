@@ -11,21 +11,30 @@ type Props = {
     name: string;
 }
 
-export default function ProjectCard({onSelect,project_id,end_date,name}:Props){
-
-    return(
-        <>
-            <div className="flex items-center justify-between w-[80%] h-14 bg-gray-200 rounded-md mx-auto my-4">
-                <Link href={`/dashboard/invoice/${project_id}`} className="text-gray-500 m-2" >
+export default function ProjectCard({ onSelect, project_id, end_date, name }: Props) {
+    return (
+        <article className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200/70 bg-linear-to-b from-white via-neutral-100 to-neutral-200 p-4 shadow-[0_12px_28px_-20px_rgba(0,0,0,0.45)]">
+            <div className="flex items-center gap-3">
+                <Link
+                    href={`/dashboard/projects/${project_id}`}
+                    className="grid h-10 w-10 place-items-center rounded-xl border border-neutral-100 bg-neutral-50 text-neutral-600 transition hover:-translate-y-0.5 hover:border-neutral-300 hover:text-neutral-900"
+                    aria-label={`نمایش پروژه ${name}`}
+                >
                     <RightArrowIcon />
                 </Link>
-                <div className="text-gray-700 text-xs">{name}</div>
-                <div className="text-gray-700 text-xs">{end_date}</div>
-                <div className="text-gray-700 text-xs">{project_id}</div>
-                <button type="button" onClick={()=>onSelect(project_id)} className="text-gray-300 w-10 h-10 m-2 cursor-pointer">
+                <div className="text-sm font-extrabold text-neutral-900">{name}</div>
+            </div>
+            <div className="flex items-center gap-3">
+                <div className="text-xs font-bold text-neutral-800">{end_date}</div>
+                <button
+                    type="button"
+                    onClick={() => onSelect(project_id)}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-neutral-100 text-neutral-50 transition hover:-translate-y-0.5 hover:border-neutral-300"
+                    aria-label={`ویرایش پروژه ${name}`}
+                >
                     <PencilIcon />
                 </button>
             </div>
-        </>
-    )
+        </article>
+    );
 }

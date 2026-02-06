@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PortalFlow 
 
-## Getting Started
+PortalFlow is a user and document management system designed to provide a seamless interaction between administrators and users.  
 
-First, run the development server:
+## Features  
+- Admin panel for managing users, transactions, and projects.  
+- User portal for accessing personal documents and reports.  
+- RESTful API for smooth data exchange.  
+- Multi-purpose design, usable in various domains.  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Technologies Used  
+### Backend  
+- fast api: RESTful API for data management.  
+### Frontend  
+- next.js
+### Database  
+- PostgreSQL  
+
+## Folder Structure
 ```
+PortalFlow_Frontend/
+├── business/      # next.js for user portal
+└── admin/     # next.js admin panel
+```
+## Installation  
+### Prerequisites  
+- Docker
+- Docker Compose 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Steps  
+1. Clone the repository:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+git clone https://github.com/your-username/PortalFlow_Frontend.git
+cd PortalFlow_Frontend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+2. Build and run the project using Docker Compose:
 
-To learn more about Next.js, take a look at the following resources:
+docker-compose up --build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Access the application:
 
-## Deploy on Vercel
+Admin Panel: http://localhost:3000/dashboard
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+User Panel: http://localhost:3000/
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+---

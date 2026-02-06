@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const StageSchema = z.object({
   title: z.string().min(2, "عنوان مرحله الزامی است"),
-  estimateTime: z.number().positive("ورودی باید بزرگتر از صفر باشد"),
+  estimatedTime: z.number().positive("ورودی باید بزرگتر از صفر باشد"),
   estimatedCost: z.number("ورودی باید عدد باشد").positive("ورودی باید بزرگتر از صفر باشد"),
 });
 
