@@ -1,11 +1,9 @@
 'use client'
 
-// import { useMemo } from "react";
-
 export default function useMoney(){
     const spread_group:number = 3;
     
-    function countToStr(count: number){
+    function countToStr(count: number|string){
 
         let amount:string = count.toString();
         const amount_len:number = amount.length;

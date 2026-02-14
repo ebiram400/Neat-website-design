@@ -18,7 +18,7 @@ export default function FastRegistration() {
         { id:0, name: "خرید مصالح", icon: "/images/icon/buy_materials.png", href: `/dashboard/projects/${projectId}/buy_materials/new&edit` },
         { id:1, name: "ورود و خروج", icon: "/images/icon/work_time.svg", href: `/dashboard/projects/${projectId}/work_time/new&edit` },
         { id:2, name: "هزینه", icon: "/images/icon/expenses.png", href: `/dashboard/projects/${projectId}/expenses/new&edit` },
-        { id:3, name: "مصرف مصالح", icon: "/images/icon/consumption_materials.png", href: `/dashboard/projects/${projectId}/consumption-materials/new&edit` },
+        { id:3, name: "مصرف مصالح", icon: "/images/icon/consumption_materials.png", href: `/dashboard/projects/${projectId}/consumption_materials/new&edit` },
         { id:4, name: "پرداخت دستمزد", icon: "/images/icon/salary.png", href: `/dashboard/projects/${projectId}/salary/new&edit` },
         { id:5, name: "واریزی", icon: "/images/icon/invest.png", href: `/dashboard/projects/${projectId}/invest&income/new&edit` },
     ];

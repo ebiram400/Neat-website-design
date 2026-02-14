@@ -13,10 +13,10 @@ export default function TransactionsMenu() {
     const projectId = useProjectId();
 
     const menuNewTransaction:newRegister[] = [
-        { id:0, name: "هزینه مصالح", href: `/dashboard/projects/${projectId}/buy-materials` },
+        { id:0, name: "هزینه مصالح", href: `/dashboard/projects/${projectId}/buy_materials` },
         { id:1, name: "کارکرد کارگران", href: `/dashboard/projects/${projectId}/work_time` },
         { id:2, name: "هزینه های جانبی", href: `/dashboard/projects/${projectId}/expenses` },
-        { id:3, name: "مصرف مصالح", href: `/dashboard/projects/${projectId}/consumption-materials` },
+        { id:3, name: "مصرف مصالح", href: `/dashboard/projects/${projectId}/consumption_materials` },
         { id:4, name: "پرداخت دستمزد", href: `/dashboard/projects/${projectId}/salary` },
         { id:5, name: "درآمد و سرمایه", href: `/dashboard/projects/${projectId}/invest&income` },
     ];
