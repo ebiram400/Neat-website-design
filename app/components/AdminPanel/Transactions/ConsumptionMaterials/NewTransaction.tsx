@@ -2,20 +2,20 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import {
-    BUY_MATERIAL_PAYMENTS,
-    BUY_MATERIAL_UNITS,
-    BuyMaterialData,
-    BuyMaterialFields,
-    BuyMaterialPayload,
-} from "./BuyMaterialFields.schema";
+import { Controller, useForm, useWatch } from "react-hook-form";
+
 import FieldTransaction from "../FieldTransaction";
 import BackgroundForm from "@/public/images/icon/BackgroundForm";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import useMoney from "@/app/hooks/useMoney";
+import {
+    CONSUMPTION_MATERIAL_UNITS,
+    ConsumptionMaterialUnit,
+    ConsumptionMaterialData,
+    ConsumptionMaterialFields,
+    ConsumptionMaterialPayload,
+} from "./ConsumptionMaterialsFields.schema";
 
 type props = {
     pojectId: string;
@@ -23,12 +23,30 @@ type props = {
 };
 
 export default function NewTransaction({ pojectId, transactionId }:props ){
+    const units = CONSUMPTION_MATERIAL_UNITS;
+    const levels = [
+        "گودبرداری",
+        "فوندانسیون",
+        "اسکلت",
+        "دیوارچینی",
+        "تاسیسات",
+        "سقف کاذب",
+        "دیوارپوش و کف پوش",
+        "نازک کاری نهایی",
+        "تاسیسات نهایی",
+    ] as const;
 
-    const units = BUY_MATERIAL_UNITS;
-    const payMethods = BUY_MATERIAL_PAYMENTS;
+    const CONSUMPTION_MATERIAL_TYPES = ["آهن","گچ","بتن"] as const;
 
-    const toMoney = useMoney();
-    const [isAmountFocused, setIsAmountFocused] = useState(false);
+    type ConsumptionMaterialType = (typeof CONSUMPTION_MATERIAL_TYPES)[number];
+    
+    const CONSUMPTION_MATERIAL_UNIT_BY_TYPE: 
+    Record< string|ConsumptionMaterialType, ConsumptionMaterialUnit > = {
+        "آهن": "m",
+        "گچ": "کیسه",
+        "بتن": "m3",
+    };
+
     const [crackedButton, setCrackedButton] = useState<"cancel" | "save" | null>(null);
 
     const {
@@ -39,18 +57,23 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
             reset,
             formState: { errors },
             handleSubmit
-        } = useForm<BuyMaterialData,unknown,  BuyMaterialPayload>({
-            resolver: zodResolver(BuyMaterialFields),
+        } = useForm<ConsumptionMaterialData,unknown,  ConsumptionMaterialPayload>({
+            resolver: zodResolver(ConsumptionMaterialFields),
             defaultValues: {
-                type:"",
+                type: undefined,
                 quantity: undefined,
                 unit: undefined,
-                amount: "",
-                supplier: "",
-                payment:undefined,
+                level: undefined,
                 date: "",
             }
         });
+
+    const isConsumptionMaterialType = (value: string): value is ConsumptionMaterialType =>
+        value in CONSUMPTION_MATERIAL_UNIT_BY_TYPE;
+
+    const selectedType = useWatch({ control, name: "type" });
+    
+    const lockedUnit = selectedType ? CONSUMPTION_MATERIAL_UNIT_BY_TYPE[selectedType] : undefined;
 
     const increaseQuantity = () => {
         const current = getValues("quantity") ?? 1;
@@ -63,18 +86,6 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
         setValue("quantity", nextValue, { shouldDirty: true, shouldValidate: true });
     };
 
-    const normalizeAmountInput = (value: string) => value.replace(/[^\d.]/g, "");
-
-    const getAmountDisplayValue = (rawValue: string, focused: boolean) => {
-        if (focused) return rawValue;
-        if (!rawValue.trim()) return "";
-
-        const parsedValue = Number(rawValue);
-        if (Number.isNaN(parsedValue)) return rawValue;
-
-        return toMoney(parsedValue * 1000);
-    };
-
     const triggerCrack = (button: "cancel" | "save") => {
         setCrackedButton(button);
         setTimeout(() => {
@@ -82,7 +93,7 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
         }, 650);
     };
 
-    const onSubmit = (formData: BuyMaterialPayload) => {
+    const onSubmit = (formData: ConsumptionMaterialPayload) => {
         // TODO: connect submit payload to API.
         console.log("Buy material payload:", formData);
     };
@@ -90,7 +101,6 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
     const onCancel = () => {
         triggerCrack("cancel");
         reset();
-        setIsAmountFocused(false);
     };
 
     const glassActionBaseClass = `relative isolate overflow-hidden rounded-full border px-4 py-2 text-sm font-['Vazir']
@@ -127,7 +137,7 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                     bg-linear-to-b from-white/20 via-white/10 to-transparent" />
                     <div className="absolute inset-0 rounded-3xl pointer-events-none
                                     shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]" />
-                    <div className="text-center">{`> ثبت خرید مصالح`}</div>
+                    <div className="text-center">{`> ثبت مصرف مصالح`}</div>
                 </div>
             </div>
 
@@ -147,8 +157,31 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
 
                     <div className="relative z-10 text-right">
                         <form className="grid md:grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
+                            {/* type */}
                             <FieldTransaction label="نوع مصالح" matchId="type" error={errors.type?.message}>
-                                <input type="text" id="type" {...register("type")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
+                                <select
+                                    id="type"
+                                    defaultValue=""
+                                    {...register("type", {
+                                        onChange: (event) => {
+                                            const nextType = event.target.value;
+                                            if (isConsumptionMaterialType(nextType)) {
+                                                setValue("unit", CONSUMPTION_MATERIAL_UNIT_BY_TYPE[nextType], {
+                                                    shouldDirty: true,
+                                                    shouldValidate: true,
+                                                });
+                                            }
+                                        },
+                                    })}
+                                    className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"
+                                >
+                                    <option value="" disabled></option>
+                                    {CONSUMPTION_MATERIAL_TYPES.map((materialType) => (
+                                        <option key={materialType} value={materialType}>
+                                            {materialType}
+                                        </option>
+                                    ))}
+                                </select>
                             </FieldTransaction>
                             {/* quatity */}
                             <div className="relative mx-auto flex items-center max-w-32 md:col-start-1">
@@ -205,13 +238,20 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                             <div>
                                 <ul className="flex justify-around items-center ">
                                     { units.map((item)=>(
-                                        <li key={item} className="rounded-3xl w-14 p-2
+                                        <li key={item} className={`rounded-3xl w-14 p-2
                                         bg-white/5 backdrop-blur-[2px]
                                         border border-white/5
                                         shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                        relative overflow-hidden backdrop-saturate-150 cursor-pointer">
+                                        relative overflow-hidden backdrop-saturate-150 ${lockedUnit && item !== lockedUnit ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}>
 
-                                            <input type="radio" id={item} value={item} className="sr-only peer" {...register("unit")} />
+                                            <input
+                                                type="radio"
+                                                id={item}
+                                                value={item}
+                                                disabled={Boolean(lockedUnit && item !== lockedUnit)}
+                                                className="sr-only peer"
+                                                {...register("unit")}
+                                            />
                                             <div className={`absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-200
                                                             bg-linear-to-b from-white/20 via-white/10 to-transparent peer-checked:opacity-75 peer-focus-visible:opacity-75`} />
                                             <div className="absolute inset-0 rounded-3xl pointer-events-none transition-shadow duration-200
@@ -219,7 +259,7 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                                             peer-checked:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]
                                                             peer-focus-visible:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]" />
 
-                                            <label htmlFor={item} className="relative z-10 block text-center text-xs text-neutral-900 peer-checked:text-neutral-500">
+                                            <label htmlFor={item} className={`relative z-10 block text-center text-xs text-neutral-900 peer-checked:text-neutral-500 ${lockedUnit && item !== lockedUnit ? "cursor-not-allowed" : "cursor-pointer"}`}>
                                                 {item}
                                             </label>
                                         </li>
@@ -255,48 +295,17 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                     )}
                                 />
                             </FieldTransaction>
-                            {/* supplier */}
-                            <FieldTransaction label="تامین کننده" matchId="supplier" error={errors.supplier?.message}>
-                                <input type="text" id="supplier" {...register("supplier")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
-                            </FieldTransaction>
-                            {/* amount */}
-                            <FieldTransaction label="قیمت(تومان)" matchId="amount" error={errors.amount?.message}>
-                                <Controller
-                                    name="amount"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <input
-                                            type="text"
-                                            id="amount"
-                                            inputMode="decimal"
-                                            value={getAmountDisplayValue(field.value ?? "", isAmountFocused)}
-                                            onFocus={() => {
-                                                setIsAmountFocused(true);
-                                            }}
-                                            onBlur={(event) => {
-                                                setIsAmountFocused(false);
-                                                field.onBlur();
-                                                field.onChange(normalizeAmountInput(event.target.value));
-                                            }}
-                                            onChange={(event) => {
-                                                field.onChange(normalizeAmountInput(event.target.value));
-                                            }}
-                                            className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"
-                                        />
-                                    )}
-                                />
-                            </FieldTransaction>
-                            {/* payment */}
+                            {/* level */}
                             <div>
-                                <ul className="flex justify-around items-center ">
-                                    { payMethods.map((item)=>(
-                                        <li key={item} className="rounded-3xl w-14 p-2
+                                <ul className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-around items-center gap-2 ">
+                                    { levels.map((item)=>(
+                                        <li key={item} className="rounded-3xl w-24 p-2
                                         bg-white/5 backdrop-blur-[2px]
                                         border border-white/5
                                         shadow-[0_15px_50px_rgba(0,0,0,0.25)]
                                         relative overflow-hidden backdrop-saturate-150 cursor-pointer">
 
-                                            <input type="radio" id={item} value={item} className="sr-only peer" {...register("payment")} />
+                                            <input type="radio" id={item} value={item} className="sr-only peer" {...register("level")} />
                                             <div className={`absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-200
                                                             bg-linear-to-b from-white/20 via-white/10 to-transparent peer-checked:opacity-75 peer-focus-visible:opacity-75`} />
                                             <div className="absolute inset-0 rounded-3xl pointer-events-none transition-shadow duration-200
@@ -310,7 +319,7 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                         </li>
                                     )) }
                                 </ul>
-                                {errors.payment?.message && <p className="text-[10px] font-[Vazir] text-rose-500 mt-1">{errors.payment?.message}</p>}
+                                {errors.level?.message && <p className="text-[10px] font-[Vazir] text-rose-500 mt-1">{errors.level?.message}</p>}
                             </div>
                             {/* save / cancel */}
                             <div className="md:col-span-2 w-11/12 mx-auto mt-6 grid grid-cols-2 gap-3">
@@ -343,6 +352,8 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                     </div>
                 </div>
             </div>
+
+
 
         </div>
     )

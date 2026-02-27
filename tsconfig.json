@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "app/components/AdminPanel/AdminProjects/ProjectFields.schema.ts"  ],
+, "app/components/AdminPanel/AdminProjects/ProjectFields.schema.ts", "app/components/AdminPanel/Transactions/WorkTime"  ],
   "exclude": ["node_modules"]
 }

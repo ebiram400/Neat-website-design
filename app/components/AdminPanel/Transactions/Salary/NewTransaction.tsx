@@ -4,12 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-    BUY_MATERIAL_PAYMENTS,
-    BUY_MATERIAL_UNITS,
-    BuyMaterialData,
-    BuyMaterialFields,
-    BuyMaterialPayload,
-} from "./BuyMaterialFields.schema";
+    SALARY_PAYMENTS,
+    SalaryFields,
+    SalaryFieldsPayload,
+    SalaryFieldsData,
+} from "./SalaryFields.schema";
 import FieldTransaction from "../FieldTransaction";
 import BackgroundForm from "@/public/images/icon/BackgroundForm";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -24,44 +23,41 @@ type props = {
 
 export default function NewTransaction({ pojectId, transactionId }:props ){
 
-    const units = BUY_MATERIAL_UNITS;
-    const payMethods = BUY_MATERIAL_PAYMENTS;
+    const positions = ["گچ کار", "کارگر و بنا", "لوله کش"] as const;
+    const payMethods = SALARY_PAYMENTS;
+    const levels = [
+        "گودبرداری",
+        "فوندانسیون",
+        "اسکلت",
+        "دیوارچینی",
+        "تاسیسات",
+        "سقف کاذب",
+        "دیوارپوش و کف پوش",
+        "نازک کاری نهایی",
+        "تاسیسات نهایی",
+    ] as const;
 
     const toMoney = useMoney();
     const [isAmountFocused, setIsAmountFocused] = useState(false);
     const [crackedButton, setCrackedButton] = useState<"cancel" | "save" | null>(null);
 
     const {
-            register,
-            control,
-            getValues,
-            setValue,
-            reset,
-            formState: { errors },
-            handleSubmit
-        } = useForm<BuyMaterialData,unknown,  BuyMaterialPayload>({
-            resolver: zodResolver(BuyMaterialFields),
-            defaultValues: {
-                type:"",
-                quantity: undefined,
-                unit: undefined,
-                amount: "",
-                supplier: "",
-                payment:undefined,
-                date: "",
-            }
-        });
-
-    const increaseQuantity = () => {
-        const current = getValues("quantity") ?? 1;
-        setValue("quantity", current + 1, { shouldDirty: true, shouldValidate: true });
-    };
-
-    const decreaseQuantity = () => {
-        const current = getValues("quantity") ?? 1;
-        const nextValue = Math.max(1, current - 1);
-        setValue("quantity", nextValue, { shouldDirty: true, shouldValidate: true });
-    };
+        register,
+        control,
+        reset,
+        formState: { errors },
+        handleSubmit
+    } = useForm<SalaryFieldsData,unknown,  SalaryFieldsPayload>({
+        resolver: zodResolver(SalaryFields),
+        defaultValues: {
+            name:"",
+            position: undefined,
+            level: "",
+            amount: "",
+            payment:undefined,
+            date: "",
+        }
+    });
 
     const normalizeAmountInput = (value: string) => value.replace(/[^\d.]/g, "");
 
@@ -82,7 +78,7 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
         }, 650);
     };
 
-    const onSubmit = (formData: BuyMaterialPayload) => {
+    const onSubmit = (formData: SalaryFieldsPayload) => {
         // TODO: connect submit payload to API.
         console.log("Buy material payload:", formData);
     };
@@ -109,7 +105,7 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
         after:mix-blend-screen after:transition after:duration-500`;
 
     return(
-        <div className="relative h-screen w-full overflow-hidden font-['lalezar']">
+        <div className="relative h-screen w-full overflow-hidden overflow-y-auto font-['lalezar']">
             <BackgroundForm />
             <div className="absolute -top-40 -left-40 w-100 h-100 bg-purple-400/40 blur-3xl rounded-full " />
             <div className="absolute -bottom-40 -right-40 w-100 h-100 bg-pink-500/40 blur-3xl rounded-full" />
@@ -127,18 +123,18 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                     bg-linear-to-b from-white/20 via-white/10 to-transparent" />
                     <div className="absolute inset-0 rounded-3xl pointer-events-none
                                     shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]" />
-                    <div className="text-center">{`> ثبت خرید مصالح`}</div>
+                    <div className="text-center">{`> ثبت پرداخت دستمزد`}</div>
                 </div>
             </div>
 
             {/* form */}
-            <div className="w-11/12 mx-auto my-[4vw] ">
+            <div className="w-11/12 mx-auto my-[4vw]" >
                 <div
                 className="rounded-3xl p-5
-                    bg-white/5 backdrop-blur-[2px]
+                    backdrop-blur-[2px]
                     border border-white/5
-                    shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                    relative overflow-hidden backdrop-saturate-150"
+                    shadow-[0_15px_50px_rgba(0,0,0,0.25)] backdrop-saturate-150
+                    relative overflow-hidden"
                 >
                     <div className="absolute inset-0 rounded-3xl pointer-events-none
                                     bg-linear-to-b from-white/20 via-white/10 to-transparent" />
@@ -147,86 +143,25 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
 
                     <div className="relative z-10 text-right">
                         <form className="grid md:grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
-                            <FieldTransaction label="نوع مصالح" matchId="type" error={errors.type?.message}>
-                                <input type="text" id="type" {...register("type")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
+                            {/* name */}
+                            <FieldTransaction label="نام" matchId="name" error={errors.name?.message}>
+                                <input type="text" id="name" {...register("name")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
                             </FieldTransaction>
-                            {/* quatity */}
-                            <div className="relative mx-auto flex items-center max-w-32 md:col-start-1">
-                                <div
-                                    className={`rounded-3xl p-4
-                                    bg-white/5 backdrop-blur-[2px]
-                                    border border-white/5
-                                    shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                    relative overflow-hidden backdrop-saturate-150`}
-                                >
-                                    <div className={`absolute inset-0 rounded-3xl pointer-events-none
-                                                    bg-linear-to-b from-white/20 via-white/10 to-transparent`} />
-                                    <div className="absolute inset-0 rounded-3xl pointer-events-none
-                                                    shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]" />
-
-                                    <button
-                                        type="button"
-                                        onClick={decreaseQuantity}
-                                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 `}
-                                    >
-                                        <svg className="w-4 h-4 text-neutral-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14"/></svg>
-                                    </button>
-                                </div>
+                            {/* position */}
+                            <FieldTransaction label="سمت" matchId="position" error={errors.position?.message} >
                                 <input
-                                    type="number"
-                                    id="quantity-input"
-                                    min={1}
-                                    className="text-center w-full no-spinner text-neutral-900"
-                                    defaultValue={1}
-                                    {...register("quantity", { valueAsNumber: true })}
+                                    type="text"
+                                    id="position"
+                                    list="positions-list"
+                                    {...register('position')}
+                                    className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"
                                 />
-                                <div
-                                    className={`rounded-3xl p-4
-                                    bg-white/5 backdrop-blur-[2px]
-                                    border border-white/5
-                                    shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                    relative overflow-hidden backdrop-saturate-150`}
-                                >
-                                    <div className={`absolute inset-0 rounded-3xl pointer-events-none
-                                                    bg-linear-to-b from-white/20 via-white/10 to-transparent`} />
-                                    <div className="absolute inset-0 rounded-3xl pointer-events-none
-                                                    shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]" />
-                                    <button
-                                        type="button"
-                                        onClick={increaseQuantity}
-                                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 `}
-                                    >
-                                        <svg className="w-4 h-4 text-neutral-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/></svg>
-                                    </button>
-                                </div>
-                                {errors.quantity?.message && <p className="text-xs text-red-500 mt-1">{errors.quantity?.message}</p>}
-                            </div>
-                            {/* unit */}
-                            <div>
-                                <ul className="flex justify-around items-center ">
-                                    { units.map((item)=>(
-                                        <li key={item} className="rounded-3xl w-14 p-2
-                                        bg-white/5 backdrop-blur-[2px]
-                                        border border-white/5
-                                        shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                        relative overflow-hidden backdrop-saturate-150 cursor-pointer">
-
-                                            <input type="radio" id={item} value={item} className="sr-only peer" {...register("unit")} />
-                                            <div className={`absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-200
-                                                            bg-linear-to-b from-white/20 via-white/10 to-transparent peer-checked:opacity-75 peer-focus-visible:opacity-75`} />
-                                            <div className="absolute inset-0 rounded-3xl pointer-events-none transition-shadow duration-200
-                                                            shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]
-                                                            peer-checked:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]
-                                                            peer-focus-visible:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]" />
-
-                                            <label htmlFor={item} className="relative z-10 block text-center text-xs text-neutral-900 peer-checked:text-neutral-500">
-                                                {item}
-                                            </label>
-                                        </li>
-                                    )) }
-                                </ul>
-                                {errors.unit?.message && <p className="text-[10px] font-[Vazir] text-rose-500 mt-1">{errors.unit?.message}</p>}
-                            </div>
+                                <datalist id="positions-list">
+                                    {positions.map((position) => (
+                                        <option key={position} value={position} />
+                                    ))}
+                                </datalist>
+                            </FieldTransaction>
                             {/* date */}
                             <FieldTransaction label="تاریخ" matchId="date" error={errors.date?.message}>
                                 <Controller
@@ -255,10 +190,31 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                     )}
                                 />
                             </FieldTransaction>
-                            {/* supplier */}
-                            <FieldTransaction label="تامین کننده" matchId="supplier" error={errors.supplier?.message}>
-                                <input type="text" id="supplier" {...register("supplier")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
-                            </FieldTransaction>
+                            {/* level */}
+                            <div>
+                                <ul className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-around items-center gap-2 ">
+                                    { levels.map((item)=>(
+                                        <li key={item} className="rounded-3xl w-24 p-2
+                                        bg-linear-to-b from-white/60 via-white/5 to-transparent
+                                        border border-white/5
+                                        shadow-[0_15px_50px_rgba(0,0,0,0.25)] 
+                                        relative overflow-hidden cursor-pointer">
+                                            <input type="radio" id={item} value={item} className="sr-only peer" {...register("level")} />
+                                            <div className={`absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-200
+                                                            bg-linear-to-b from-white/20 via-white/10 to-transparent peer-checked:opacity-75 peer-focus-visible:opacity-75`} />
+                                            <div className="absolute inset-0 rounded-3xl pointer-events-none transition-shadow duration-200
+                                                            shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]
+                                                            peer-checked:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]
+                                                            peer-focus-visible:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]" />
+
+                                            <label htmlFor={item} className="relative z-10 block text-center text-xs text-neutral-900 peer-checked:text-neutral-500">
+                                                {item}
+                                            </label>
+                                        </li>
+                                    )) }
+                                </ul>
+                                {errors.level?.message && <p className="text-[10px] font-[Vazir] text-rose-500 mt-1">{errors.level?.message}</p>}
+                            </div>
                             {/* amount */}
                             <FieldTransaction label="قیمت(تومان)" matchId="amount" error={errors.amount?.message}>
                                 <Controller
@@ -290,11 +246,11 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                             <div>
                                 <ul className="flex justify-around items-center ">
                                     { payMethods.map((item)=>(
-                                        <li key={item} className="rounded-3xl w-14 p-2
-                                        bg-white/5 backdrop-blur-[2px]
+                                        <li key={item} className="rounded-3xl w-16 p-2
+                                        bg-linear-to-b from-white/60 via-white/5 to-transparent
                                         border border-white/5
-                                        shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                        relative overflow-hidden backdrop-saturate-150 cursor-pointer">
+                                        shadow-[0_15px_50px_rgba(0,0,0,0.25)] 
+                                        relative overflow-hidden cursor-pointer">
 
                                             <input type="radio" id={item} value={item} className="sr-only peer" {...register("payment")} />
                                             <div className={`absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-200
@@ -342,7 +298,20 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                         </form>
                     </div>
                 </div>
+
             </div>
+            {/* <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{
+                backdropFilter: "blur(2px) brightness(1.1) ",
+                WebkitBackdropFilter: "blur(2px) brightness(1.1)",
+                filter: "url(#displacementFilter) drop-shadow(-8px -10px 46px #0000005f)",
+            }} />
+            <svg className="pointer-events-none absolute h-0 w-0">
+                <filter id="displacementFilter">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="0.35" result="softened" />
+                    <feTurbulence type="turbulence" baseFrequency={0.01} numOctaves={2} result="turbulence" />
+                    <feDisplacementMap in="softened" in2="turbulence" scale={14} xChannelSelector="R" yChannelSelector="G" />
+                </filter>
+            </svg> */}
 
         </div>
     )

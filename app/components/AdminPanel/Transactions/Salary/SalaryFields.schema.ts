@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { isValidJalaaliDate, toGregorian } from "jalaali-js";
 
-export const BUY_MATERIAL_UNITS = ["m", "m3", "کیسه", "نیسان", "pcs"] as const;
-export const BUY_MATERIAL_PAYMENTS = ["bank", "cheque", "credit", "catch"] as const;
+export const SALARY_PAYMENTS = ["bank", "cheque", "credit", "catch"] as const;
 
 const toEnglishDigits = (value: string) =>
   value.replace(/[۰-۹]/g, (digit) => String(digit.charCodeAt(0) - 1776))
@@ -29,17 +28,17 @@ const parseJalaaliDateParts = (value: string) => {
   return { jy, jm, jd };
 };
 
-export const BuyMaterialFields = z.object({
-  type: z
+export const SalaryFields = z.object({
+
+  name: z
     .string()
     .trim()
-    .min(1, "نوع مصالح الزامی است"),
+    .optional(),
 
-  quantity: z
-    .number()
-    .positive("ورودی باید بزرگتر از صفر باشد"),
-
-  unit: z.enum(BUY_MATERIAL_UNITS, "واحد مقدار الزامی است"),
+  position: z
+    .string()
+    .trim()
+    .min(1, "سمت الزامی می باشد"),
 
   amount: z
     .string()
@@ -48,9 +47,12 @@ export const BuyMaterialFields = z.object({
     .refine((value) => !Number.isNaN(Number(value)), "مبلغ باید عدد باشد")
     .transform((value) => Number(value) * 1000),
 
-  supplier: z.string().trim().optional(),
+  payment: z.enum(SALARY_PAYMENTS, "نوع پرداخت را تعیین نمایید"),
 
-  payment: z.enum(BUY_MATERIAL_PAYMENTS, "نوع پرداخت را تعیین نمایید"),
+  level: z
+  .string()
+  .trim()
+  .min(1,"مرحله الزامی می باشد"),
 
   date: z
     .string()
@@ -68,7 +70,5 @@ export const BuyMaterialFields = z.object({
     }),
 });
 
-export type BuyMaterialData = z.input<typeof BuyMaterialFields>;
-export type BuyMaterialPayload = z.output<typeof BuyMaterialFields>;
-export type BuyMaterialUnit = (typeof BUY_MATERIAL_UNITS)[number];
-export type BuyMaterialPayment = (typeof BUY_MATERIAL_PAYMENTS)[number];
+export type SalaryFieldsData = z.input<typeof SalaryFields>;
+export type SalaryFieldsPayload = z.output<typeof SalaryFields>;

@@ -4,12 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-    BUY_MATERIAL_PAYMENTS,
-    BUY_MATERIAL_UNITS,
-    BuyMaterialData,
-    BuyMaterialFields,
-    BuyMaterialPayload,
-} from "./BuyMaterialFields.schema";
+    INVEST_PAYMENTS,
+    InvestFieldsData,
+    InvestFields,
+    InvestFieldsPayload,
+} from "./InvestFields.schema";
 import FieldTransaction from "../FieldTransaction";
 import BackgroundForm from "@/public/images/icon/BackgroundForm";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -24,8 +23,7 @@ type props = {
 
 export default function NewTransaction({ pojectId, transactionId }:props ){
 
-    const units = BUY_MATERIAL_UNITS;
-    const payMethods = BUY_MATERIAL_PAYMENTS;
+    const payMethods = INVEST_PAYMENTS;
 
     const toMoney = useMoney();
     const [isAmountFocused, setIsAmountFocused] = useState(false);
@@ -34,34 +32,18 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
     const {
             register,
             control,
-            getValues,
-            setValue,
             reset,
             formState: { errors },
             handleSubmit
-        } = useForm<BuyMaterialData,unknown,  BuyMaterialPayload>({
-            resolver: zodResolver(BuyMaterialFields),
+        } = useForm<    InvestFieldsData, unknown,  InvestFieldsPayload>({
+            resolver: zodResolver(InvestFields),
             defaultValues: {
-                type:"",
-                quantity: undefined,
-                unit: undefined,
+                description:"",
                 amount: "",
-                supplier: "",
                 payment:undefined,
                 date: "",
             }
         });
-
-    const increaseQuantity = () => {
-        const current = getValues("quantity") ?? 1;
-        setValue("quantity", current + 1, { shouldDirty: true, shouldValidate: true });
-    };
-
-    const decreaseQuantity = () => {
-        const current = getValues("quantity") ?? 1;
-        const nextValue = Math.max(1, current - 1);
-        setValue("quantity", nextValue, { shouldDirty: true, shouldValidate: true });
-    };
 
     const normalizeAmountInput = (value: string) => value.replace(/[^\d.]/g, "");
 
@@ -82,9 +64,9 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
         }, 650);
     };
 
-    const onSubmit = (formData: BuyMaterialPayload) => {
+    const onSubmit = (formData: InvestFieldsPayload) => {
         // TODO: connect submit payload to API.
-        console.log("Buy material payload:", formData);
+        console.log("Invest Fields Payload:", formData);
     };
 
     const onCancel = () => {
@@ -127,7 +109,7 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                     bg-linear-to-b from-white/20 via-white/10 to-transparent" />
                     <div className="absolute inset-0 rounded-3xl pointer-events-none
                                     shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]" />
-                    <div className="text-center">{`> ثبت خرید مصالح`}</div>
+                    <div className="text-center">{`> ثبت سرمایه/درآمد`}</div>
                 </div>
             </div>
 
@@ -147,86 +129,10 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
 
                     <div className="relative z-10 text-right">
                         <form className="grid md:grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
-                            <FieldTransaction label="نوع مصالح" matchId="type" error={errors.type?.message}>
-                                <input type="text" id="type" {...register("type")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
+                            {/* description */}
+                            <FieldTransaction label="شرح" matchId="description" error={errors.description?.message}>
+                                <input type="text" id="description" {...register("description")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
                             </FieldTransaction>
-                            {/* quatity */}
-                            <div className="relative mx-auto flex items-center max-w-32 md:col-start-1">
-                                <div
-                                    className={`rounded-3xl p-4
-                                    bg-white/5 backdrop-blur-[2px]
-                                    border border-white/5
-                                    shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                    relative overflow-hidden backdrop-saturate-150`}
-                                >
-                                    <div className={`absolute inset-0 rounded-3xl pointer-events-none
-                                                    bg-linear-to-b from-white/20 via-white/10 to-transparent`} />
-                                    <div className="absolute inset-0 rounded-3xl pointer-events-none
-                                                    shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]" />
-
-                                    <button
-                                        type="button"
-                                        onClick={decreaseQuantity}
-                                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 `}
-                                    >
-                                        <svg className="w-4 h-4 text-neutral-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14"/></svg>
-                                    </button>
-                                </div>
-                                <input
-                                    type="number"
-                                    id="quantity-input"
-                                    min={1}
-                                    className="text-center w-full no-spinner text-neutral-900"
-                                    defaultValue={1}
-                                    {...register("quantity", { valueAsNumber: true })}
-                                />
-                                <div
-                                    className={`rounded-3xl p-4
-                                    bg-white/5 backdrop-blur-[2px]
-                                    border border-white/5
-                                    shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                    relative overflow-hidden backdrop-saturate-150`}
-                                >
-                                    <div className={`absolute inset-0 rounded-3xl pointer-events-none
-                                                    bg-linear-to-b from-white/20 via-white/10 to-transparent`} />
-                                    <div className="absolute inset-0 rounded-3xl pointer-events-none
-                                                    shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]" />
-                                    <button
-                                        type="button"
-                                        onClick={increaseQuantity}
-                                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 `}
-                                    >
-                                        <svg className="w-4 h-4 text-neutral-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-7 7V5"/></svg>
-                                    </button>
-                                </div>
-                                {errors.quantity?.message && <p className="text-xs text-red-500 mt-1">{errors.quantity?.message}</p>}
-                            </div>
-                            {/* unit */}
-                            <div>
-                                <ul className="flex justify-around items-center ">
-                                    { units.map((item)=>(
-                                        <li key={item} className="rounded-3xl w-14 p-2
-                                        bg-white/5 backdrop-blur-[2px]
-                                        border border-white/5
-                                        shadow-[0_15px_50px_rgba(0,0,0,0.25)]
-                                        relative overflow-hidden backdrop-saturate-150 cursor-pointer">
-
-                                            <input type="radio" id={item} value={item} className="sr-only peer" {...register("unit")} />
-                                            <div className={`absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-200
-                                                            bg-linear-to-b from-white/20 via-white/10 to-transparent peer-checked:opacity-75 peer-focus-visible:opacity-75`} />
-                                            <div className="absolute inset-0 rounded-3xl pointer-events-none transition-shadow duration-200
-                                                            shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.1)]
-                                                            peer-checked:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]
-                                                            peer-focus-visible:shadow-[inset_0_2px_5px_rgba(0,0,0,0.35),inset_0_-1px_1px_rgba(255,255,255,0.22)]" />
-
-                                            <label htmlFor={item} className="relative z-10 block text-center text-xs text-neutral-900 peer-checked:text-neutral-500">
-                                                {item}
-                                            </label>
-                                        </li>
-                                    )) }
-                                </ul>
-                                {errors.unit?.message && <p className="text-[10px] font-[Vazir] text-rose-500 mt-1">{errors.unit?.message}</p>}
-                            </div>
                             {/* date */}
                             <FieldTransaction label="تاریخ" matchId="date" error={errors.date?.message}>
                                 <Controller
@@ -254,10 +160,6 @@ export default function NewTransaction({ pojectId, transactionId }:props ){
                                         />
                                     )}
                                 />
-                            </FieldTransaction>
-                            {/* supplier */}
-                            <FieldTransaction label="تامین کننده" matchId="supplier" error={errors.supplier?.message}>
-                                <input type="text" id="supplier" {...register("supplier")} className="block w-full px-0 py-1 text-center text-neutral-800 text-sm bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 peer"/>
                             </FieldTransaction>
                             {/* amount */}
                             <FieldTransaction label="قیمت(تومان)" matchId="amount" error={errors.amount?.message}>

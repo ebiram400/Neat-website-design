@@ -1,29 +1,28 @@
 "use client";
 
 import AddPageIcon from "@/public/images/icon/AddPageIcon";
-import BuyMaterialCard from "./BuyMaterialCard";
+import InvestCard from "./InvestCard";
 import AdminHeader from "../../AdminHeader";
-import { useState } from "react";
 import ErrorDelete from "../ErrorDelete";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-interface BuyMaterialInfo{
+
+interface consumptionMaterialInfo{
     id:number;
-    type:string;
-    quantity:number;
-    unit:string;
+    description:string;
     amount:string;
     date:string;
 };
 
-export default function BuyMaterialsIndex({ projectId }: { projectId: string }) {
+export default function InvestAndIncomeIndex({ projectId } : { projectId: string }) {
 
-    const BuyMaterialInfos:BuyMaterialInfo[] = [
-        { id:0, type:"آهن", quantity:2, unit:"شاخه", amount:"65000000", date:"1404-06-15" },
-        { id:1, type:"گچ", quantity:4, unit:"کیسه", amount:"2000000", date:"1404-06-14" },
-        { id:2, type:"سیمان", quantity:10, unit:"کیسه", amount:"4000000", date:"1404-06-11" },
-        { id:3, type:"شن", quantity:1, unit:"وانت", amount:"9000000", date:"1404-06-11" }
+    const consumptionMaterialInfos:consumptionMaterialInfo[] = [
+        { id:0, description:"واریز محمد", amount:"200000000", date:"1404-06-15" },
+        { id:1, description:"واریز علی", amount:"200000000", date:"1404-06-14" },
+        { id:2, description:"فروش ضایعات", amount:"200000000", date:"1404-06-11" },
+        { id:3, description:"واریز محمد", amount:"200000000", date:"1404-06-11" }
     ]
 
     const route = useRouter();
@@ -33,7 +32,7 @@ export default function BuyMaterialsIndex({ projectId }: { projectId: string }) 
     const [isLoading, setIsLoading ] = useState<boolean>(false);
 
     const handleEdit = (transactionId:number)=>{
-        route.push(`/dashboard/projects/${projectId}/buy_materials/new&edit?transactionId=${transactionId}`)
+        route.push(`/dashboard/projects/${projectId}/invest&income/new&edit?transactionId=${transactionId}`)
     }
 
     const handleDelete = (transactionId:number)=>{
@@ -52,14 +51,14 @@ export default function BuyMaterialsIndex({ projectId }: { projectId: string }) 
 
     return(
         <>
-            <AdminHeader breadcrumb="هزینه مصالح" titleLink={projectId} hrefLink={`/dashboard/projects/${projectId}`} />
+            <AdminHeader breadcrumb="درآمد و سرمایه" titleLink={projectId} hrefLink={`/dashboard/projects/${projectId}`} />
             <div className="mt-3 w-[90%] mx-auto grid gap-2">
-                {BuyMaterialInfos.map((item)=>(
-                    <BuyMaterialCard key={item.id} onSelectDelete={handleDelete} onSelectEdit={handleEdit} id={item.id} type={item.type} quantity={item.quantity} unit={item.unit} amount={item.amount} date={item.date} />
+                {consumptionMaterialInfos.map((item)=>(
+                    <InvestCard key={item.id} onSelectDelete={handleDelete} onSelectEdit={handleEdit} id={item.id} description={item.description} amount={item.amount} date={item.date} />
                 ))}
             </div>
             <Link
-                href={`/dashboard/projects/${projectId}/buy_materials/new&edit`}
+                href={`/dashboard/projects/${projectId}/invest&income/new&edit`}
                 className="fixed bottom-5 right-5 h-12 w-12 rounded-full shadow-xl transition hover:-translate-y-0.5 hover:shadow-xl"
                 aria-label="افزودن ترنزکشن جدید"
             >
